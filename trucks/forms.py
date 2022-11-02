@@ -1,10 +1,10 @@
 from django import forms
-from .models import Truck
+from .models import Model, Truck
 
 
 class TruckForm(forms.ModelForm):
+    model = forms.ModelChoiceField(queryset=Model.objects.all(), required=None, empty_label="All")
+
     class Meta:
-        field_name = forms.ModelChoiceField(
-            queryset=Truck.objects.all().values_list('model', ),
-            empty_label="All"
-        )
+        model = Truck
+        fields = ('model', )
