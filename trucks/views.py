@@ -15,7 +15,7 @@ class TrucksView(ListView):
     def get_queryset(self):
         qs = super().get_queryset()
 
-        if self.request.GET['model']:
+        if self.request.GET and self.request.GET['model']:
             qs = qs.filter(model=self.request.GET['model'])
 
         qs = qs.annotate(overload=((F('current_capacity') - F('max_capacity')) * 100)/F('max_capacity'))
