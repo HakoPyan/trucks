@@ -1,4 +1,4 @@
-from django.db.models import F, When, Case, Q, Value
+from django.db.models import F, When, Case, FloatField
 from django.views.generic import ListView
 from .models import Truck
 from .forms import TruckForm
@@ -19,5 +19,5 @@ class TrucksView(ListView):
             qs = qs.filter(model=self.request.GET['model'])
 
         qs = qs.annotate(overload=((F('current_capacity') - F('max_capacity')) * 100)/F('max_capacity'))
-        qs = qs.annotate(overload=Case(When(overload__lte=0, then=0), default=F('overload')))
+        qs = qs.annotate(overload=Case(When(overload__lte=0, then=0), default=F('overload'), output_field=FloatField()))
         return qs
